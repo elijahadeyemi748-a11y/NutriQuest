@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NutriQuest">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>NutriQuest</title>
+<style>
+:root{--bg:#0d1422;--panel:#172236;--panel2:#202e45;--text:#f4f7fc;--muted:#a8b5c9;--mint:#78e0b0;--blue:#82b7ff;--gold:#ffd27a;--pink:#ff9fc5;--line:#2d3b52}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101c30,#0b1220 55%);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:14px;padding:12px 15px;font-weight:700;background:var(--mint);color:#102018}
+button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}
+header{position:sticky;top:0;z-index:5;background:#101a2bee;backdrop-filter:blur(16px);padding:14px 17px calc(12px + env(safe-area-inset-top));border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:20px;font-weight:900;letter-spacing:-.5px}.brand span{color:var(--mint)}.level{font-size:12px;color:var(--gold);font-weight:800}
+main{max-width:760px;margin:auto;padding:17px 15px 100px}.hero{background:radial-gradient(circle at 85% 10%,#31516b 0,#1a2c43 38%,#172236 75%);border:1px solid #38516d;border-radius:25px;padding:17px;display:grid;grid-template-columns:1fr 116px;gap:8px;align-items:center;box-shadow:0 14px 40px #0003}
+.eyebrow{color:var(--mint);font-size:11px;letter-spacing:1.3px;font-weight:900;text-transform:uppercase}.hero h1{font-size:25px;line-height:1.05;margin:7px 0}.hero p{color:#c5d3e5;font-size:13px;line-height:1.45;margin:7px 0 12px}.avatar{font-size:78px;text-align:center;filter:drop-shadow(0 8px 12px #0005)}.xpbar{height:9px;background:#0d1726;border-radius:20px;overflow:hidden;margin-top:7px}.xpbar i{display:block;height:100%;background:linear-gradient(90deg,#66d9a5,#a7f2ca);width:0%}.xpmeta{display:flex;justify-content:space-between;color:#c6d6e8;font-size:11px;margin-top:5px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:13px}.card{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:14px;min-width:0}.card h3{font-size:14px;margin:0 0 10px}.stat{font-size:22px;font-weight:850;letter-spacing:-.5px}.muted{color:var(--muted)}.small{font-size:11px;color:var(--muted);line-height:1.45}.section{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.section h2{font-size:17px;margin:0}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.action{display:flex;align-items:center;gap:10px;text-align:left;background:var(--panel);color:var(--text);border:1px solid var(--line);padding:13px;border-radius:16px}.action b{display:block;font-size:13px}.action small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.ico{font-size:23px}
+.tabs{position:fixed;z-index:8;bottom:0;left:0;right:0;background:#111b2bef;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 7px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:space-around}.tab{background:transparent;color:var(--muted);padding:7px 10px;min-width:62px;font-size:10px}.tab span{display:block;font-size:19px;margin-bottom:3px}.tab.active{color:var(--mint)}
+.view{display:none}.view.active{display:block}.field{width:100%;background:#0f1929;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;margin:6px 0 10px;outline:none}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.row .field{flex:1}.nutrient{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #29364a;font-size:12px}.nutrient:last-child{border:0}.pill{display:inline-block;border-radius:99px;padding:5px 8px;background:#253751;color:#cfe2fa;font-size:10px;font-weight:700}.food{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.food:last-child{border:0}.food strong{font-size:13px}.food button{padding:8px 10px;font-size:11px}.bar{height:7px;border-radius:9px;background:#0d1726;overflow:hidden;margin:7px 0 12px}.bar i{display:block;height:100%;background:var(--blue)}.notice{background:#26364c;border:1px solid #3b526d;padding:11px;border-radius:13px;color:#c7d9ee;font-size:11px;line-height:1.5;margin:10px 0}.empty{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+.modal{position:fixed;inset:0;background:#0009;z-index:20;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{background:#172236;border:1px solid var(--line);border-radius:23px 23px 0 0;padding:20px;width:100%;max-width:650px;max-height:88vh;overflow:auto;padding-bottom:calc(22px + env(safe-area-inset-bottom))}.sheet h2{margin:0 0 6px}.close{float:right;background:var(--panel2);color:var(--text);padding:7px 11px}.foodresult{padding:12px;border:1px solid var(--line);border-radius:13px;margin:7px 0;cursor:pointer}.foodresult:active{background:var(--panel2)}
+@media(min-width:650px){main{padding-top:24px}.hero{padding:23px}.hero h1{font-size:31px}.avatar{font-size:96px}}
+</style>
+</head>
+<body>
+<header><div class="brand">🥑 Nutri<span>Quest</span></div><div class="level" id="headerLevel">LVL 1 · 0 XP</div></header>
+<main>
+<section class="view active" id="home">
+ <div class="hero">
+  <div><div class="eyebrow">Your nutrition adventure</div><h1 id="greeting">Hey, Explorer!</h1><p id="heroLine">Build food knowledge, discover nutrients, and help your companion grow.</p><button onclick="showView('log')">＋ Log food</button><div class="xpbar"><i id="xpFill"></i></div><div class="xpmeta"><span id="xpText">Level 1 · 0 XP</span><span id="nextXP">100 XP to level 2</span></div></div>
+  <div class="avatar" id="heroAvatar">🐉</div>
+ </div>
+ <div class="grid">
+  <div class="card"><div class="muted small">ENERGY LOGGED</div><div class="stat" id="calTotal">0</div><div class="small">kcal · no daily target</div></div>
+  <div class="card"><div class="muted small">FOODS DISCOVERED</div><div class="stat" id="foodCount">0</div><div class="small">in your food journal</div></div>
+ </div>
+ <div class="section"><h2>Quick quests</h2><span class="pill">Earn XP</span></div>
+ <div class="actions">
+  <button class="action" onclick="showView('log')"><span class="ico">🍓</span><span><b>Log a food</b><small>+10 XP per new entry</small></span></button>
+  <button class="action" onclick="showView('scan')"><span class="ico">📷</span><span><b>Scan a barcode</b><small>Discover a packaged food</small></span></button>
+  <button class="action" onclick="showView('nutrients')"><span class="ico">🧪</span><span><b>Explore nutrients</b><small>See your nutrition overview</small></span></button>
+  <button class="action" onclick="showView('character')"><span class="ico">✨</span><span><b>Customize companion</b><small>Choose your adventure buddy</small></span></button>
+ </div>
+ <div class="section"><h2>Today's food journal</h2><button class="ghost" onclick="showView('journal')">View all</button></div>
+ <div class="card" id="recentFoods"><div class="empty">Your adventure starts with your first food entry.</div></div>
+ <div class="notice">NutriQuest is a learning and food-awareness tool. It does not set weight-loss goals or judge foods. Nutrition values can vary by brand, recipe, and portion size.</div>
+</section>
+
+<section class="view" id="log">
+ <div class="section"><h2>Find a food</h2><span class="pill">USDA database</span></div>
+ <div class="card">
+  <div class="row"><input class="field" id="foodSearch" placeholder="Search foods, e.g. banana" onkeydown="if(event.key==='Enter')searchFood()"><button onclick="searchFood()">Search</button></div>
+  <div class="small">Search USDA FoodData Central. Select a result to add its nutrition information.</div>
+  <div id="searchResults"><div class="empty">Search the USDA database to get started.</div></div>
+ </div>
+ <div class="section"><h2>Quick custom entry</h2></div>
+ <div class="card">
+  <input class="field" id="customName" placeholder="Food name">
+  <div class="row"><input class="field" id="customCalories" type="number" min="0" placeholder="Calories"><input class="field" id="customProtein" type="number" min="0" step=".1" placeholder="Protein (g)"></div>
+  <div class="row"><input class="field" id="customCarbs" type="number" min="0" step=".1" placeholder="Carbs (g)"><input class="field" id="customFat" type="number" min="0" step=".1" placeholder="Fat (g)"></div>
+  <button onclick="addCustom()">Add food to journal</button>
+ </div>
+</section>
+
+<section class="view" id="scan">
+ <div class="section"><h2>Barcode scanner</h2><span class="pill">Camera</span></div>
+ <div class="card">
+  <div id="reader" style="width:100%;overflow:hidden;border-radius:13px"></div>
+  <button id="startScan" onclick="startScanner()">Start camera scanner</button>
+  <button class="secondary" id="stopScan" onclick="stopScanner()" style="display:none">Stop scanner</button>
+  <div class="notice">Allow camera access when prompted. If camera scanning is unavailable in your browser, enter the barcode below.</div>
+  <input class="field" id="barcodeInput" inputmode="numeric" placeholder="Enter UPC / EAN barcode">
+  <button onclick="lookupBarcode()">Look up barcode</button>
+  <div id="barcodeResult"></div>
+ </div>
+</section>
+
+<section class="view" id="photo">
+ <div class="section"><h2>AI food photo</h2><span class="pill">Photo estimate</span></div>
+ <div class="card">
+  <p class="small">Take or choose a meal photo. The app can prepare it for an AI vision service; an AI backend must be connected before automatic food recognition is available.</p>
+  <input class="field" id="mealPhoto" type="file" accept="image/*" capture="environment" onchange="previewPhoto(event)">
+  <img id="photoPreview" alt="Meal preview" style="display:none;width:100%;border-radius:14px;margin:8px 0">
+  <div id="photoStatus" class="notice">Photo recognition is not connected yet. You can still add the meal using the manual food search or custom entry.</div>
+  <button class="secondary" onclick="showView('log')">Enter meal manually</button>
+ </div>
+</section>
+
+<section class="view" id="nutrients">
+ <div class="section"><h2>Nutrition dashboard</h2><span class="pill">Today</span></div>
+ <div class="card"><h3>Macronutrients</h3><div id="macroList"></div></div>
+ <div class="card" style="margin-top:12px"><h3>Vitamins & minerals</h3><div id="microList"></div></div>
+ <div class="notice">Totals reflect foods you've logged and nutrients supplied by their database records. A blank or zero value can mean the database did not provide that nutrient—not necessarily that the food contains none.</div>
+</section>
+
+<section class="view" id="journal">
+ <div class="section"><h2>Food journal</h2><button class="ghost" onclick="clearJournal()">Clear today</button></div>
+ <div class="card" id="journalList"></div>
+</section>
+
+<section class="view" id="character">
+ <div class="section"><h2>Your companion</h2><span class="pill" id="levelPill">Level 1</span></div>
+ <div class="card" style="text-align:center;padding:24px">
+  <div id="bigAvatar" style="font-size:100px">🐉</div>
+  <h2 id="characterName">Sprout</h2><div class="muted small" id="characterSpecies">Dragon · Level 1</div>
+  <div class="xpbar"><i id="charXP"></i></div><div class="xpmeta"><span id="charXPText">0 XP</span><span id="charNext">100 XP to next level</span></div>
+ </div>
+ <div class="section"><h2>Choose your companion</h2></div>
+ <div class="grid" id="speciesChoices">
+  <button class="action" onclick="chooseSpecies('dragon','🐉')"><span class="ico">🐉</span><span><b>Dragon</b><small>Curious & brave</small></span></button>
+  <button class="action" onclick="chooseSpecies('fox','🦊')"><span class="ico">🦊</span><span><b>Fox</b><small>Quick & clever</small></span></button>
+  <button class="action" onclick="chooseSpecies('axolotl','🦎')"><span class="ico">🦎</span><span><b>Axolotl</b><small>Calm & curious</small></span></button>
+  <button class="action" onclick="chooseSpecies('owl','🦉')"><span class="ico">🦉</span><span><b>Owl</b><small>Wise explorer</small></span></button>
+  <button class="action" onclick="chooseSpecies('cat','🐱')"><span class="ico">🐱</span><span><b>Cat</b><small>Independent</small></span></button>
+  <button class="action" onclick="chooseSpecies('unicorn','🦄')"><span class="ico">🦄</span><span><b>Unicorn</b><small>Imaginative</small></span></button>
+ </div>
+ <div class="card" style="margin-top:12px"><label class="small">Give your companion a name</label><input class="field" id="nameInput" maxlength="20" placeholder="Sprout"><button onclick="saveName()">Save name</button></div>
+</section>
+
+</main>
+<nav class="tabs">
+ <button class="tab active" data-view="home" onclick="showView('home')"><span>🏠</span>Home</button>
+ <button class="tab" data-view="log" onclick="showView('log')"><span>➕</span>Log</button>
+ <button class="tab" data-view="scan" onclick="showView('scan')"><span>▦</span>Scan</button>
+ <button class="tab" data-view="nutrients" onclick="showView('nutrients')"><span>🧪</span>Nutrients</button>
+ <button class="tab" data-view="character" onclick="showView('character')"><span>✨</span>Buddy</button>
+</nav>
+<div class="modal" id="foodModal"><div class="sheet"><button class="close" onclick="closeModal()">✕</button><h2 id="modalFoodName">Food</h2><p class="small" id="modalFoodDesc"></p><label class="small">Servings to log</label><input class="field" id="servings" type="number" min=".1" step=".1" value="1"><div id="modalNutrients"></div><button style="width:100%;margin-top:12px" onclick="confirmFood()">Add to journal · +10 XP</button></div></div>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="app.js"></script>
+</body></html>
